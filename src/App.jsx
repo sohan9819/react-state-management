@@ -1,34 +1,106 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useReducer } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+function UserForm() {
+  const [state, dispatch] = useReducer(
+    (state, action) => ({
+      ...state,
+      ...action,
+    }),
+    {
+      first_name: '',
+      last_name: '',
+    }
+  );
 
   return (
-    <div className="App">
+    <form>
+      <label htmlFor='first_name'>
+        First Name :{' '}
+        <input
+          type='text'
+          name='first_name'
+          id='first_name'
+          placeholder='First Name'
+          onChange={(e) => {
+            dispatch({ first_name: e.target.value });
+          }}
+        />
+      </label>
+      <label htmlFor='first_name'>
+        Last Name :{' '}
+        <input
+          type='text'
+          name='last_name'
+          id='last_name'
+          placeholder='Last Name'
+          onChange={(e) => {
+            dispatch({ last_name: e.target.value });
+          }}
+        />
+      </label>
+
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h1>Preview : </h1>
+        <p>First Name : {state.first_name}</p>
+        <p>Last Name : {state.last_name}</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    </form>
+  );
 }
 
-export default App
+function NameList() {
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case 'SET_NAME':
+          return { ...state, name: action.payload };
+        case 'ADD_NAME':
+          return { names: [...state.names, action.payload], name: '' };
+        default:
+          break;
+      }
+    },
+    {
+      names: [],
+      name: '',
+    }
+  );
+
+  return (
+    <div className='App'>
+      <ul>
+        {state.names.map((name, index) => (
+          <li key={index}>{name}</li>
+        ))}{' '}
+      </ul>
+      <input
+        type='text'
+        name=''
+        id=''
+        value={state.name}
+        onChange={(e) =>
+          dispatch({ type: 'SET_NAME', payload: e.target.value })
+        }
+      />
+      <div>Name = {state.name}</div>
+      <button
+        onClick={() => {
+          dispatch({ type: 'ADD_NAME', payload: state.name });
+        }}
+      >
+        Save
+      </button>
+    </div>
+  );
+}
+function App() {
+  return (
+    <div className='App'>
+      <NameList />
+      <hr />
+      <UserForm />
+    </div>
+  );
+}
+
+export default App;
