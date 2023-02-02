@@ -65,7 +65,3 @@ function App() {
 }
 
 export default App;
-
-useCallback(() => {
-  first;
-}, [second]);
