@@ -16,6 +16,8 @@
 
 [React Docs for useEffect](https://beta.reactjs.org/reference/react/useEffect)
 
+[Blog on useEffect](https://caelinsutch.medium.com/react-useeffect-hook-in-depth-dc6b7c6132e5)
+
 ```javascript
 // useEffect(() => {
 //   first
