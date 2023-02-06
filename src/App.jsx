@@ -7,3 +7,5 @@ function App() {
 }
 
 export default App;
+
+// typescript, @types/react and @types/react-dom
